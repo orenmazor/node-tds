@@ -1,0 +1,11 @@
+{
+  "name"          : "node-tds",
+  "description"   : "node.js support for talking to microsoft sql server",
+  "url"           : "",
+  "keywords"      : ["node", "sql", "mssql", "microsoft", "tds"],
+  "author"        : "Oren Mazor <oren.mazor@gmail.com>",
+  "contributors"  : [],
+  "lib"           : "lib",
+  "main"          : "./lib/mssql.js",
+  "version"       : "0.0.1"
+}
