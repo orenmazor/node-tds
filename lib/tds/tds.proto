@@ -1,0 +1,46 @@
+//as per the microsoft specification of TDS at http://msdn.microsoft.com/en-us/library/dd304523(v=prot.13).aspx
+
+package tds;
+message TDS_Packet {
+
+	//there's two LOGIN packet types, depending on which version of TDS we use, pre and post TDS v7
+	enum PacketType {
+		QUERY = 1;
+		PRE_TDS7_LOGIN = 2;
+		RPC = 3;
+		REPLY = 4;
+		CANCEL = 6;
+		BULK = 7;
+		POST_TDS7_LOGIN = 16;
+		AUTH = 17;
+		PRELOGIN = 18;
+	}
+	
+	enum PacketStatus {
+		NORMAL = 0;
+		EOM = 1;
+		IGNORE_THIS_PACKET = 2;
+		RESET_CONN = 8;
+		RESET_CONN_BEFORE_PROCESSING = 16;
+	}
+	
+	//header
+	required PacketType tds_packet_type = 1 [default = PRELOGIN];
+	required PacketStatus status = 2 [default = NORMAL];
+	required int32 length = 3 [default = 0];
+	
+	//process ID serverside.
+	required int32 spid = 4 [default = 0];
+	
+	//this value is currently ignored by TDS
+	//TODO: does protobuf support the short type somehow?
+	required bool packet_number = 5 [default = false];
+	
+	//currently ignored by TDS
+	//TODO: same as above. short type?
+	required bool window = 6 [default = false];
+	
+	//dataload
+	//this packet must be the size of the negotiated packet size, MINUS 8 for the header
+	repeated bytes payload = 7;
+}
